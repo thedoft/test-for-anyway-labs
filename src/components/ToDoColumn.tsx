@@ -1,29 +1,46 @@
-import React, { useState } from 'react';
-import { Button, InputGroup, FormControl } from 'react-bootstrap';
+import React, { SyntheticEvent, useState } from 'react';
+import {
+  Button, InputGroup, Form, FormControl,
+} from 'react-bootstrap';
 import Column from './Column';
-import { ICards } from '../interfaces/ICards';
+import { CardType } from '../types/CardType';
 import logo from '../logo.svg';
 
-interface IToDo extends ICards {
-  setCards: (cards: { id: number, text: string }[]) => void;
+export interface IToDo {
+  cardsToDo: CardType[];
+  cardsInProgress: CardType[];
+  setCardsToDo: (cardsToDo: CardType[]) => void;
+  setCardsInProgress: (cardsInProgress: CardType[]) => void;
 }
 
-function ToDoColumn({ cards, setCards }: IToDo) {
+function ToDoColumn({
+  cardsToDo, cardsInProgress, setCardsToDo, setCardsInProgress,
+}: IToDo) {
   const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState('');
 
-  function handleSubmit() {
-    const newCard = {
-      id: cards.length,
-      text: newTask,
-    };
+  function handleSubmit(evt: SyntheticEvent) {
+    evt.preventDefault();
 
-    setCards([...cards, newCard]);
-    setIsNewTaskClicked(false);
+    if (newTask !== '') {
+      const newCard = {
+        id: cardsToDo.length,
+        text: newTask,
+      };
+
+      setCardsToDo([...cardsToDo, newCard]);
+      setIsNewTaskClicked(false);
+    }
   }
 
   return (
-    <Column title="To do" cards={cards}>
+    <Column
+      title="To do"
+      cards={cardsToDo}
+      cardsForAdd={cardsInProgress}
+      setCardsToDo={setCardsToDo}
+      setCardsInProgress={setCardsInProgress}
+    >
       <Button
         onClick={() => setIsNewTaskClicked(!isNewTaskClicked)}
         variant="light"
@@ -34,15 +51,18 @@ function ToDoColumn({ cards, setCards }: IToDo) {
       </Button>
 
       {isNewTaskClicked && (
-        <InputGroup size="sm" style={{ width: 'calc(100% - 30px)', alignSelf: 'center', margin: '0 15px' }}>
-          <FormControl
-            placeholder="Do something..."
-            onChange={(evt) => setNewTask(evt.target.value)}
-          />
-          <InputGroup.Append>
-            <Button variant="outline-dark" onClick={handleSubmit}>Button</Button>
-          </InputGroup.Append>
-        </InputGroup>
+        <Form onSubmit={handleSubmit}>
+          <InputGroup size="sm" style={{ width: 'calc(100% - 30px)', alignSelf: 'center', margin: '0 15px 15px' }}>
+            <FormControl
+              placeholder="Do something..."
+              onChange={(evt) => setNewTask(evt.target.value)}
+              autoFocus
+            />
+            <InputGroup.Append>
+              <Button type="submit" variant="outline-dark">Button</Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form>
       )}
     </Column>
   );

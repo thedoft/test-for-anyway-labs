@@ -20,9 +20,19 @@ function App() {
           margin: 0, gap: 15, minHeight: '100%', paddingBottom: 15,
         }}
         >
-          <ToDoColumn cards={cardsToDo} setCards={setCardsToDo} />
-          <InProgressColumn cards={cardsInProgress} />
-          <DoneColumn cards={cardsDone} />
+          <ToDoColumn
+            cardsToDo={cardsToDo}
+            cardsInProgress={cardsInProgress}
+            setCardsToDo={setCardsToDo}
+            setCardsInProgress={setCardsInProgress}
+          />
+          <InProgressColumn
+            cardsInProgress={cardsInProgress}
+            cardsDone={cardsDone}
+            setCardsInProgress={setCardsInProgress}
+            setCardsDone={setCardsDone}
+          />
+          <DoneColumn cardsDone={cardsDone} />
         </Row>
       </Container>
     </>

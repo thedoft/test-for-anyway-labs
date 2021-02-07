@@ -1,9 +1,20 @@
-import React, { FC } from 'react';
+import React from 'react';
 import Column from './Column';
-import { ICards } from '../interfaces/ICards';
+import { CardType } from '../types/CardType';
 
-const DoneColumn: FC<ICards> = ({ cards }: ICards) => (
-  <Column title="Done" cards={cards} isDone price="50" />
-);
+interface IDone {
+  cardsDone: CardType[];
+}
+
+function DoneColumn({ cardsDone }: IDone) {
+  return (
+    <Column
+      title="Done"
+      cards={cardsDone}
+      isDone
+      price="50"
+    />
+  );
+}
 
 export default DoneColumn;

@@ -2,22 +2,36 @@ import React from 'react';
 import {
   Card, Button,
 } from 'react-bootstrap';
+import { CardType } from '../types/CardType';
+
 import logo from '../logo.svg';
 
 interface CardProps {
-  text: string;
+  card: CardType;
   isInProgress: boolean;
   isDone: boolean;
   time: string;
   price: string;
+  onButtonClick: (card: CardType) => void;
 }
 
 function CardItem({
-  text, isInProgress, isDone, time, price,
+  card, isInProgress, isDone, time, price, onButtonClick,
 }: CardProps) {
-  const cardLabel = isDone ? `$${price}` : time;
   const buttonVariant = isInProgress ? 'success' : 'primary';
   const buttonText = isInProgress ? 'Resolve' : 'Start';
+
+  function setCardLabel() {
+    if (isDone) {
+      return `$${price}`;
+    }
+    if (isInProgress) {
+      return time;
+    }
+    return null;
+  }
+
+  const cardLabel = setCardLabel();
 
   return (
     <Card style={{ minHeight: 86, marginBottom: 10 }}>
@@ -31,11 +45,16 @@ function CardItem({
             }}
           />
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <Card.Text>{text}</Card.Text>
+            <Card.Text>{card.text}</Card.Text>
             <Card.Text className="text-muted">{cardLabel}</Card.Text>
           </div>
         </div>
-        {!isDone && <Button variant={buttonVariant} style={{ alignSelf: 'center' }}>{buttonText}</Button>}
+
+        {!isDone && (
+          <Button onClick={() => onButtonClick(card)} variant={buttonVariant} style={{ alignSelf: 'center' }}>
+            {buttonText}
+          </Button>
+        )}
       </Card.Body>
     </Card>
   );

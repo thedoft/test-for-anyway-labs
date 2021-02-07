@@ -1,9 +1,28 @@
-import React, { FC } from 'react';
+import React from 'react';
 import Column from './Column';
-import { ICards } from '../interfaces/ICards';
+import { CardType } from '../types/CardType';
 
-const InProgressColumn: FC<ICards> = ({ cards }: ICards) => (
-  <Column title="In Progress" cards={cards} isInProgress time="00:01:12" />
-);
+interface IInProgress {
+  cardsDone: CardType[];
+  cardsInProgress: CardType[];
+  setCardsDone: (cardsDone: CardType[]) => void;
+  setCardsInProgress: (cardsInProgress: CardType[]) => void;
+}
+
+function InProgressColumn({
+  cardsInProgress, cardsDone, setCardsInProgress, setCardsDone,
+}: IInProgress) {
+  return (
+    <Column
+      title="In Progress"
+      cards={cardsInProgress}
+      cardsForAdd={cardsDone}
+      isInProgress
+      setCardsInProgress={setCardsInProgress}
+      setCardsDone={setCardsDone}
+      time="00:01:12"
+    />
+  );
+}
 
 export default InProgressColumn;
