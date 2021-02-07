@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useStopwatch } from 'react-timer-hook';
 import {
   Card, Button,
 } from 'react-bootstrap';
+import { ICardItem } from '../interfaces/ICardItem';
 import { CardType } from '../types/CardType';
 
 import logo from '../logo.svg';
 
-interface CardProps {
+interface CardProps extends ICardItem {
   card: CardType;
-  isInProgress: boolean;
-  isDone: boolean;
-  time: string;
-  price: string;
   onButtonClick: (card: CardType) => void;
 }
 
 function CardItem({
-  card, isInProgress, isDone, time, price, onButtonClick,
+  card, isInProgress, isDone, price, onButtonClick,
 }: CardProps) {
   const buttonVariant = isInProgress ? 'success' : 'primary';
   const buttonText = isInProgress ? 'Resolve' : 'Start';
+
+  const { seconds, minutes, hours } = useStopwatch({ autoStart: true });
 
   function setCardLabel() {
     if (isDone) {
       return `$${price}`;
     }
     if (isInProgress) {
-      return time;
+      const h = `${hours}`.padStart(2, '0');
+      const m = `${minutes}`.padStart(2, '0');
+      const s = `${seconds}`.padStart(2, '0');
+      return `${h}:${m}:${s}`;
     }
     return null;
   }

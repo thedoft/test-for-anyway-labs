@@ -75,7 +75,6 @@ function Column({
             key={card.id}
             isInProgress={isInProgress || false}
             isDone={isDone || false}
-            time={time || ''}
             price={price || ''}
             onButtonClick={handleButtonClick}
           />

@@ -20,7 +20,6 @@ function InProgressColumn({
       isInProgress
       setCardsInProgress={setCardsInProgress}
       setCardsDone={setCardsDone}
-      time="00:01:12"
     />
   );
 }
