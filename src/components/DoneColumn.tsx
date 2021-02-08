@@ -12,7 +12,6 @@ function DoneColumn({ cardsDone }: IDone) {
       title="Done"
       cards={cardsDone}
       isDone
-      price="50"
     />
   );
 }

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   Col, Badge, CardDeck,
 } from 'react-bootstrap';
@@ -16,9 +16,11 @@ interface ColumnProps extends IColumn {
 }
 
 function Column({
-  children, title, cards, cardsForAdd, isInProgress, isDone, time, price,
+  children, title, cards, cardsForAdd, isInProgress, isDone,
   setCardsToDo, setCardsInProgress, setCardsDone,
 }: ColumnProps) {
+  const [price, setPrice] = useState(0);
+
   function filterCards(card: CardType) {
     const newCards = cards.filter((c) => c.id !== card.id);
     return newCards.map((c, index) => {
@@ -45,6 +47,7 @@ function Column({
     const updatedCards = filterCards(card);
     if (setCardsInProgress) setCardsInProgress(updatedCards);
     const newCard = setCurrentIndex(card);
+    newCard.price = +price.toFixed(2);
     if (setCardsDone) setCardsDone([...cardsForAdd, newCard]);
   }
 
@@ -75,8 +78,9 @@ function Column({
             key={card.id}
             isInProgress={isInProgress || false}
             isDone={isDone || false}
-            price={price || ''}
             onButtonClick={handleButtonClick}
+            price={price}
+            setPrice={setPrice}
           />
         ))}
         {children}

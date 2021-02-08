@@ -1,5 +1,6 @@
 export interface ICardItem {
   isInProgress: boolean;
   isDone: boolean;
-  price: string;
+  price: number;
+  setPrice: (price: number) => void;
 }

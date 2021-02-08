@@ -13,28 +13,39 @@ interface CardProps extends ICardItem {
   onButtonClick: (card: CardType) => void;
 }
 
+const PRICE_PER_HOUR = 100;
+
 function CardItem({
-  card, isInProgress, isDone, price, onButtonClick,
+  card, isInProgress, isDone, setPrice, onButtonClick,
 }: CardProps) {
   const buttonVariant = isInProgress ? 'success' : 'primary';
   const buttonText = isInProgress ? 'Resolve' : 'Start';
 
-  const { seconds, minutes, hours } = useStopwatch({ autoStart: true });
+  const [cardLabel, setCardLabel] = useState('');
+  const [time, setTime] = useState('');
 
-  function setCardLabel() {
-    if (isDone) {
-      return `$${price}`;
-    }
+  const {
+    seconds, minutes, hours, start, pause,
+  } = useStopwatch();
+
+  useEffect(() => {
     if (isInProgress) {
+      start();
+
       const h = `${hours}`.padStart(2, '0');
       const m = `${minutes}`.padStart(2, '0');
       const s = `${seconds}`.padStart(2, '0');
-      return `${h}:${m}:${s}`;
-    }
-    return null;
-  }
 
-  const cardLabel = setCardLabel();
+      setTime(`${h}:${m}:${s}`);
+      setCardLabel(time);
+      setPrice((seconds / 60 / 60) * PRICE_PER_HOUR);
+    }
+
+    if (isDone) {
+      pause();
+      setCardLabel(`$${card.price || PRICE_PER_HOUR}`);
+    }
+  }, [isInProgress, hours, minutes, seconds, isDone, start, pause, setPrice, time]);
 
   return (
     <Card style={{ minHeight: 86, marginBottom: 10 }}>
