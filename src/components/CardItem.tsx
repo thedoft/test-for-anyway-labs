@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import {
   Card, Button,
@@ -15,9 +15,9 @@ interface CardProps extends ICardItem {
 
 const PRICE_PER_HOUR = 100;
 
-function CardItem({
+const CardItem: FC<CardProps> = ({
   card, isInProgress, isDone, setPrice, onButtonClick,
-}: CardProps) {
+}: CardProps) => {
   const buttonVariant = isInProgress ? 'success' : 'primary';
   const buttonText = isInProgress ? 'Resolve' : 'Start';
 
@@ -45,7 +45,7 @@ function CardItem({
       pause();
       setCardLabel(`$${card.price || PRICE_PER_HOUR}`);
     }
-  }, [isInProgress, hours, minutes, seconds, isDone, start, pause, setPrice, time]);
+  }, [isInProgress, hours, minutes, seconds, isDone, start, pause, setPrice, time, card.price]);
 
   return (
     <Card style={{ minHeight: 86, marginBottom: 10 }}>
@@ -72,6 +72,6 @@ function CardItem({
       </Card.Body>
     </Card>
   );
-}
+};
 
 export default CardItem;

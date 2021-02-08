@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import {
   Col, Badge, CardDeck,
 } from 'react-bootstrap';
@@ -15,10 +15,10 @@ interface ColumnProps extends IColumn {
   setCardsDone?: (cards: CardType[]) => void;
 }
 
-function Column({
+const Column: FC<ColumnProps> = ({
   children, title, cards, cardsForAdd, isInProgress, isDone,
   setCardsToDo, setCardsInProgress, setCardsDone,
-}: ColumnProps) {
+}: ColumnProps) => {
   const [price, setPrice] = useState(0);
 
   function filterCards(card: CardType) {
@@ -87,14 +87,14 @@ function Column({
       </CardDeck>
     </Col>
   );
-}
+};
 
 Column.defaultProps = {
-  cardsForAdd: null,
+  cardsForAdd: [],
   children: null,
-  setCardsToDo: null,
-  setCardsInProgress: null,
-  setCardsDone: null,
+  setCardsToDo: () => {},
+  setCardsInProgress: () => {},
+  setCardsDone: () => {},
 };
 
 export default Column;

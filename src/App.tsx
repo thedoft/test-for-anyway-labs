@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Header from './components/Header';
 import ToDoColumn from './components/ToDoColumn';
 import InProgressColumn from './components/InProgressColumn';
 import DoneColumn from './components/DoneColumn';
+import { CardType } from './types/CardType';
 
+import * as api from './utils/api';
 import { defaultCardsToDo, defaultCardsInProgress, defaultCardsDone } from './data/defaultCards';
 
-function App() {
-  const [cardsToDo, setCardsToDo] = useState(defaultCardsToDo);
-  const [cardsInProgress, setCardsInProgress] = useState(defaultCardsInProgress);
-  const [cardsDone, setCardsDone] = useState(defaultCardsDone);
+const App: FC = () => {
+  const [cardsToDo, setCardsToDo] = useState<CardType[]>([]);
+  const [cardsInProgress, setCardsInProgress] = useState<CardType[]>([]);
+  const [cardsDone, setCardsDone] = useState<CardType[]>([]);
+
+  useEffect(() => {
+    api.getCardsToDo()
+      .then(() => setCardsToDo(defaultCardsToDo))
+      .catch(() => setCardsToDo(defaultCardsToDo));
+
+    api.getCardsInProgress()
+      .then(() => setCardsInProgress(defaultCardsInProgress))
+      .catch(() => setCardsInProgress(defaultCardsInProgress));
+
+    api.getCardsDone()
+      .then(() => setCardsDone(defaultCardsDone))
+      .catch(() => setCardsDone(defaultCardsDone));
+  }, []);
 
   return (
     <>
@@ -37,6 +53,6 @@ function App() {
       </Container>
     </>
   );
-}
+};
 
 export default App;

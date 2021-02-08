@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Column from './Column';
 import { CardType } from '../types/CardType';
 
@@ -9,19 +9,17 @@ interface IInProgress {
   setCardsInProgress: (cardsInProgress: CardType[]) => void;
 }
 
-function InProgressColumn({
+const InProgressColumn: FC<IInProgress> = ({
   cardsInProgress, cardsDone, setCardsInProgress, setCardsDone,
-}: IInProgress) {
-  return (
-    <Column
-      title="In Progress"
-      cards={cardsInProgress}
-      cardsForAdd={cardsDone}
-      isInProgress
-      setCardsInProgress={setCardsInProgress}
-      setCardsDone={setCardsDone}
-    />
-  );
-}
+}: IInProgress) => (
+  <Column
+    title="In Progress"
+    cards={cardsInProgress}
+    cardsForAdd={cardsDone}
+    isInProgress
+    setCardsInProgress={setCardsInProgress}
+    setCardsDone={setCardsDone}
+  />
+);
 
 export default InProgressColumn;

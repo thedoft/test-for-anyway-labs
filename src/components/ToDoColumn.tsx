@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { FC, SyntheticEvent, useState } from 'react';
 import {
   Button, InputGroup, Form, FormControl,
 } from 'react-bootstrap';
@@ -13,9 +13,9 @@ export interface IToDo {
   setCardsInProgress: (cardsInProgress: CardType[]) => void;
 }
 
-function ToDoColumn({
+const ToDoColumn: FC<IToDo> = ({
   cardsToDo, cardsInProgress, setCardsToDo, setCardsInProgress,
-}: IToDo) {
+}: IToDo) => {
   const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState('');
 
@@ -66,6 +66,6 @@ function ToDoColumn({
       )}
     </Column>
   );
-}
+};
 
 export default ToDoColumn;
