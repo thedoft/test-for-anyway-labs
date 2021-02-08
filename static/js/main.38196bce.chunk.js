@@ -1,2 +1,0 @@
-(this["webpackJsonptest-for-anywaylabs"]=this["webpackJsonptest-for-anywaylabs"]||[]).push([[0],{10:function(t,e,n){},12:function(t,e,n){"use strict";n.r(e);var s=n(1),c=n.n(s),a=n(3),r=n.n(a),o=(n(8),n(9),n(10),n(0));var i=function(){return Object(o.jsx)("div",{className:"App",children:Object(o.jsx)(o.Fragment,{})})};r.a.render(Object(o.jsx)(c.a.StrictMode,{children:Object(o.jsx)(i,{})}),document.getElementById("root"))},9:function(t,e,n){}},[[12,1,2]]]);
-//# sourceMappingURL=main.38196bce.chunk.js.map
