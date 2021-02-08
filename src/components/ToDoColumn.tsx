@@ -4,17 +4,19 @@ import {
 } from 'react-bootstrap';
 import Column from './Column';
 import { CardType } from '../types/CardType';
-import logo from '../logo.svg';
+
+import './Column.css';
+import plus from '../images/plus.svg';
 
 export interface IToDo {
-  cardsToDo: CardType[];
-  cardsInProgress: CardType[];
-  setCardsToDo: (cardsToDo: CardType[]) => void;
-  setCardsInProgress: (cardsInProgress: CardType[]) => void;
+  cards: CardType[];
+  cardsForAdd: CardType[];
+  setCards: (cards: CardType[]) => void;
+  setCardsForAdd: (cardsForAdd: CardType[]) => void;
 }
 
 const ToDoColumn: FC<IToDo> = ({
-  cardsToDo, cardsInProgress, setCardsToDo, setCardsInProgress,
+  cards, cardsForAdd, setCards, setCardsForAdd,
 }: IToDo) => {
   const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState('');
@@ -24,11 +26,11 @@ const ToDoColumn: FC<IToDo> = ({
 
     if (newTask !== '') {
       const newCard = {
-        id: cardsToDo.length,
+        id: cards.length,
         text: newTask,
       };
 
-      setCardsToDo([...cardsToDo, newCard]);
+      setCards([...cards, newCard]);
       setIsNewTaskClicked(false);
     }
   }
@@ -36,30 +38,30 @@ const ToDoColumn: FC<IToDo> = ({
   return (
     <Column
       title="To do"
-      cards={cardsToDo}
-      cardsForAdd={cardsInProgress}
-      setCardsToDo={setCardsToDo}
-      setCardsInProgress={setCardsInProgress}
+      cards={cards}
+      cardsForAdd={cardsForAdd}
+      setCards={setCards}
+      setCardsForAdd={setCardsForAdd}
     >
       <Button
         onClick={() => setIsNewTaskClicked(!isNewTaskClicked)}
-        variant="light"
-        style={{ alignSelf: 'center', display: 'flex', marginBottom: 15 }}
+        variant="outline-dark"
+        className="column__button"
       >
-        <img src={logo} alt="add" style={{ height: 24, width: 24, objectFit: 'cover' }} />
+        <img src={plus} alt="add" className="column__button-img" />
         New task
       </Button>
 
       {isNewTaskClicked && (
         <Form onSubmit={handleSubmit}>
-          <InputGroup size="sm" style={{ width: 'calc(100% - 30px)', alignSelf: 'center', margin: '0 15px 15px' }}>
+          <InputGroup size="sm" className="column__input">
             <FormControl
               placeholder="Do something..."
               onChange={(evt) => setNewTask(evt.target.value)}
               autoFocus
             />
             <InputGroup.Append>
-              <Button type="submit" variant="outline-dark">Button</Button>
+              <Button className="column__input-button" type="submit" variant="outline-dark">Add</Button>
             </InputGroup.Append>
           </InputGroup>
         </Form>

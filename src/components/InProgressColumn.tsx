@@ -3,22 +3,22 @@ import Column from './Column';
 import { CardType } from '../types/CardType';
 
 interface IInProgress {
-  cardsDone: CardType[];
-  cardsInProgress: CardType[];
-  setCardsDone: (cardsDone: CardType[]) => void;
-  setCardsInProgress: (cardsInProgress: CardType[]) => void;
+  cards: CardType[];
+  cardsForAdd: CardType[];
+  setCards: (cards: CardType[]) => void;
+  setCardsForAdd: (cardsForAdd: CardType[]) => void;
 }
 
 const InProgressColumn: FC<IInProgress> = ({
-  cardsInProgress, cardsDone, setCardsInProgress, setCardsDone,
+  cards, cardsForAdd, setCards, setCardsForAdd,
 }: IInProgress) => (
   <Column
     title="In Progress"
-    cards={cardsInProgress}
-    cardsForAdd={cardsDone}
+    cards={cards}
+    cardsForAdd={cardsForAdd}
     isInProgress
-    setCardsInProgress={setCardsInProgress}
-    setCardsDone={setCardsDone}
+    setCards={setCards}
+    setCardsForAdd={setCardsForAdd}
   />
 );
 

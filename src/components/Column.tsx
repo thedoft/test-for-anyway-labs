@@ -5,19 +5,19 @@ import {
 import CardItem from './CardItem';
 import { IColumn } from '../interfaces/IColumn';
 import { CardType } from '../types/CardType';
+import './Column.css';
 
 interface ColumnProps extends IColumn {
-  cards: CardType[];
-  cardsForAdd?: any;
   children?: ReactNode;
-  setCardsToDo?: (cards: CardType[]) => void;
-  setCardsInProgress?: (cards: CardType[]) => void;
-  setCardsDone?: (cards: CardType[]) => void;
+  cards: CardType[];
+  cardsForAdd?: CardType[];
+  setCards?: (cards: CardType[]) => void;
+  setCardsForAdd?: (cards: CardType[]) => void;
 }
 
 const Column: FC<ColumnProps> = ({
   children, title, cards, cardsForAdd, isInProgress, isDone,
-  setCardsToDo, setCardsInProgress, setCardsDone,
+  setCards, setCardsForAdd,
 }: ColumnProps) => {
   const [price, setPrice] = useState(0);
 
@@ -32,46 +32,28 @@ const Column: FC<ColumnProps> = ({
 
   function setCurrentIndex(card: CardType) {
     const newCard = card;
-    newCard.id = cardsForAdd.length;
+    if (cardsForAdd) newCard.id = cardsForAdd.length;
     return newCard;
   }
 
-  function handleStart(card: CardType) {
-    const updatedCards = filterCards(card);
-    if (setCardsToDo) setCardsToDo(updatedCards);
-    const newCard = setCurrentIndex(card);
-    if (setCardsInProgress) setCardsInProgress([...cardsForAdd, newCard]);
-  }
-
-  function handleResolve(card: CardType) {
-    const updatedCards = filterCards(card);
-    if (setCardsInProgress) setCardsInProgress(updatedCards);
-    const newCard = setCurrentIndex(card);
-    newCard.price = +price.toFixed(2);
-    if (setCardsDone) setCardsDone([...cardsForAdd, newCard]);
-  }
-
   function handleButtonClick(card: CardType) {
-    if (!isInProgress) {
-      handleStart(card);
-    } else {
-      handleResolve(card);
-    }
+    const updatedCards = filterCards(card);
+    if (setCards) setCards(updatedCards);
+
+    const newCard = setCurrentIndex(card);
+    if (isInProgress) newCard.price = +price.toFixed(2);
+    if (cardsForAdd && setCardsForAdd) setCardsForAdd([...cardsForAdd, newCard]);
   }
 
   return (
-    <Col style={{ backgroundColor: 'lightblue', borderRadius: 5 }}>
-      <h2>
-        <Badge
-          style={{
-            borderRadius: '50%', width: 30, height: 30, padding: 3, color: '#000', backgroundColor: 'lightgrey',
-          }}
-        >
+    <Col className="column">
+      <h2 className="column__title">
+        <Badge className="column__badge">
           {cards.length}
         </Badge>
-        {` ${title}`}
+        {`${title}`}
       </h2>
-      <CardDeck style={{ flexDirection: 'column' }}>
+      <CardDeck className="column__card-deck">
         {cards.map((card) => (
           <CardItem
             card={card}
@@ -92,9 +74,8 @@ const Column: FC<ColumnProps> = ({
 Column.defaultProps = {
   cardsForAdd: [],
   children: null,
-  setCardsToDo: () => {},
-  setCardsInProgress: () => {},
-  setCardsDone: () => {},
+  setCards: () => {},
+  setCardsForAdd: () => {},
 };
 
 export default Column;

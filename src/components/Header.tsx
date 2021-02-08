@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
+import './Header.css';
 
 const Header: FC = () => (
-  <header style={{ padding: 15 }}>
-    <h1>Anyway Labs Test Project</h1>
-    <p>Just some good deeds</p>
+  <header className="header">
+    <h1 className="header__title">Anyway Labs Test Project</h1>
+    <p className="header__text">Just some good deeds</p>
   </header>
 );
 

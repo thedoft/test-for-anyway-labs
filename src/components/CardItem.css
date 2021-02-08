@@ -1,0 +1,27 @@
+.card__body {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px 10px 10px;
+}
+
+.card__main {
+  display: flex;
+}
+
+.card__img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  margin-right: 5px;
+  transform: scale(.75);
+}
+
+.card__text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card__button {
+  align-self: center;
+}

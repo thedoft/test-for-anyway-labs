@@ -5,6 +5,7 @@ import ToDoColumn from './components/ToDoColumn';
 import InProgressColumn from './components/InProgressColumn';
 import DoneColumn from './components/DoneColumn';
 import { CardType } from './types/CardType';
+import './App.css';
 
 import * as api from './utils/api';
 import { defaultCardsToDo, defaultCardsInProgress, defaultCardsDone } from './data/defaultCards';
@@ -31,24 +32,21 @@ const App: FC = () => {
   return (
     <>
       <Header />
-      <Container fluid style={{ minHeight: 'calc(100vh - 126px)', height: 1 }}>
-        <Row style={{
-          margin: 0, gap: 15, minHeight: '100%', paddingBottom: 15,
-        }}
-        >
+      <Container fluid className="main">
+        <Row className="main__wrapper">
           <ToDoColumn
-            cardsToDo={cardsToDo}
-            cardsInProgress={cardsInProgress}
-            setCardsToDo={setCardsToDo}
-            setCardsInProgress={setCardsInProgress}
+            cards={cardsToDo}
+            cardsForAdd={cardsInProgress}
+            setCards={setCardsToDo}
+            setCardsForAdd={setCardsInProgress}
           />
           <InProgressColumn
-            cardsInProgress={cardsInProgress}
-            cardsDone={cardsDone}
-            setCardsInProgress={setCardsInProgress}
-            setCardsDone={setCardsDone}
+            cards={cardsInProgress}
+            cardsForAdd={cardsDone}
+            setCards={setCardsInProgress}
+            setCardsForAdd={setCardsDone}
           />
-          <DoneColumn cardsDone={cardsDone} />
+          <DoneColumn cards={cardsDone} />
         </Row>
       </Container>
     </>

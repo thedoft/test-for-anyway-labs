@@ -1,0 +1,13 @@
+.header {
+  padding: 15px;
+}
+
+.header__title {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.header__text {
+  font-size: 16px;
+  line-height: 1.25;
+}

@@ -1,3 +1,3 @@
-## Тестовое задание в компанию Anywaylabs
+## Тестовое задание в компанию Anyway Labs
 
-https://thedoft.github.io/test-for-anywaylabs/
+https://thedoft.github.io/test-for-anyway-labs/

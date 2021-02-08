@@ -6,7 +6,8 @@ import {
 import { ICardItem } from '../interfaces/ICardItem';
 import { CardType } from '../types/CardType';
 
-import logo from '../logo.svg';
+import './CardItem.css';
+import icon from '../images/card-text.svg';
 
 interface CardProps extends ICardItem {
   card: CardType;
@@ -38,7 +39,7 @@ const CardItem: FC<CardProps> = ({
 
       setTime(`${h}:${m}:${s}`);
       setCardLabel(time);
-      setPrice((seconds / 60 / 60) * PRICE_PER_HOUR);
+      if (setPrice) setPrice((seconds / 60 / 60) * PRICE_PER_HOUR);
     }
 
     if (isDone) {
@@ -49,23 +50,17 @@ const CardItem: FC<CardProps> = ({
 
   return (
     <Card style={{ minHeight: 86, marginBottom: 10 }}>
-      <Card.Body style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 20px 10px 10px' }}>
-        <div style={{ display: 'flex' }}>
-          <img
-            src={logo}
-            alt="icon"
-            style={{
-              width: 24, height: 24, objectFit: 'cover', marginRight: 5,
-            }}
-          />
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <Card.Body className="card__body">
+        <div className="card__main">
+          <img className="card__img" src={icon} alt="icon" />
+          <div className="card__text-wrapper">
             <Card.Text>{card.text}</Card.Text>
-            <Card.Text className="text-muted">{cardLabel}</Card.Text>
+            <Card.Text bsPrefix="card-text text-muted">{cardLabel}</Card.Text>
           </div>
         </div>
 
         {!isDone && (
-          <Button onClick={() => onButtonClick(card)} variant={buttonVariant} style={{ alignSelf: 'center' }}>
+          <Button onClick={() => onButtonClick(card)} variant={buttonVariant} className="card__button">
             {buttonText}
           </Button>
         )}

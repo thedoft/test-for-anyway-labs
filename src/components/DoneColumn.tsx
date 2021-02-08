@@ -3,13 +3,13 @@ import Column from './Column';
 import { CardType } from '../types/CardType';
 
 interface IDone {
-  cardsDone: CardType[];
+  cards: CardType[];
 }
 
-const DoneColumn: FC<IDone> = ({ cardsDone }: IDone) => (
+const DoneColumn: FC<IDone> = ({ cards }: IDone) => (
   <Column
     title="Done"
-    cards={cardsDone}
+    cards={cards}
     isDone
   />
 );
