@@ -13,11 +13,13 @@ interface ColumnProps extends IColumn {
   cardsForAdd?: CardType[];
   setCards?: (cards: CardType[]) => void;
   setCardsForAdd?: (cards: CardType[]) => void;
+  postCard?: (id: number) => void;
+  deleteCard?: (id: number) => void;
 }
 
 const Column: FC<ColumnProps> = ({
   children, title, cards, cardsForAdd, isInProgress, isDone,
-  setCards, setCardsForAdd,
+  setCards, setCardsForAdd, postCard, deleteCard,
 }: ColumnProps) => {
   const [price, setPrice] = useState(0);
 
@@ -37,12 +39,23 @@ const Column: FC<ColumnProps> = ({
   }
 
   function handleButtonClick(card: CardType) {
-    const updatedCards = filterCards(card);
-    if (setCards) setCards(updatedCards);
+    if (postCard && deleteCard) {
+      Promise.all([postCard(card.id), deleteCard(card.id)])
+        /*
+          при наличии бэкенда код блока catch будет обрабатываться в then,
+          в ответ придет объект с данными удаленной карточки, этот объект будет передан
+          в вызываемые ниже функции аргументом, а не как сейчас браться из самого объекта карточки,
+          в самом же блоке catch будет обрабатываться ошибка
+        */
+        .catch(() => {
+          const updatedCards = filterCards(card);
+          if (setCards) setCards(updatedCards);
 
-    const newCard = setCurrentIndex(card);
-    if (isInProgress) newCard.price = +price.toFixed(2);
-    if (cardsForAdd && setCardsForAdd) setCardsForAdd([...cardsForAdd, newCard]);
+          const newCard = setCurrentIndex(card);
+          if (isInProgress) newCard.price = +price.toFixed(2);
+          if (cardsForAdd && setCardsForAdd) setCardsForAdd([...cardsForAdd, newCard]);
+        });
+    }
   }
 
   return (
@@ -76,6 +89,8 @@ Column.defaultProps = {
   children: null,
   setCards: () => {},
   setCardsForAdd: () => {},
+  postCard: () => {},
+  deleteCard: () => {},
 };
 
 export default Column;

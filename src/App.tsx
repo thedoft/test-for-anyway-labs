@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Header from './components/Header';
 import ToDoColumn from './components/ToDoColumn';
@@ -7,27 +7,10 @@ import DoneColumn from './components/DoneColumn';
 import { CardType } from './types/CardType';
 import './App.css';
 
-import * as api from './utils/api';
-import { defaultCardsToDo, defaultCardsInProgress, defaultCardsDone } from './data/defaultCards';
-
 const App: FC = () => {
   const [cardsToDo, setCardsToDo] = useState<CardType[]>([]);
   const [cardsInProgress, setCardsInProgress] = useState<CardType[]>([]);
   const [cardsDone, setCardsDone] = useState<CardType[]>([]);
-
-  useEffect(() => {
-    api.getCardsToDo()
-      .then(() => setCardsToDo(defaultCardsToDo))
-      .catch(() => setCardsToDo(defaultCardsToDo));
-
-    api.getCardsInProgress()
-      .then(() => setCardsInProgress(defaultCardsInProgress))
-      .catch(() => setCardsInProgress(defaultCardsInProgress));
-
-    api.getCardsDone()
-      .then(() => setCardsDone(defaultCardsDone))
-      .catch(() => setCardsDone(defaultCardsDone));
-  }, []);
 
   return (
     <>
@@ -46,7 +29,10 @@ const App: FC = () => {
             setCards={setCardsInProgress}
             setCardsForAdd={setCardsDone}
           />
-          <DoneColumn cards={cardsDone} />
+          <DoneColumn
+            cards={cardsDone}
+            setCards={setCardsDone}
+          />
         </Row>
       </Container>
     </>

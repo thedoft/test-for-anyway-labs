@@ -1,11 +1,14 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, {
+  FC, SyntheticEvent, useState, useEffect,
+} from 'react';
 import {
   Button, InputGroup, Form, FormControl,
 } from 'react-bootstrap';
 import Column from './Column';
-import { CardType } from '../types/CardType';
-
 import './Column.css';
+import { CardType } from '../types/CardType';
+import { defaultCardsToDo } from '../data/defaultCards';
+import * as api from '../utils/api';
 import plus from '../images/plus.svg';
 
 export interface IToDo {
@@ -21,6 +24,17 @@ const ToDoColumn: FC<IToDo> = ({
   const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState('');
 
+  useEffect(() => {
+    api.getCardsToDo()
+    /*
+      при наличии бэкенда код блока catch будет обрабатываться в then,
+      в ответ придет объект с данными удаленной карточки, этот объект будет передан
+      в вызываемые ниже функции аргументом, а не как сейчас браться из самого объекта карточки,
+      в самом же блоке catch будет обрабатываться ошибка
+    */
+      .catch(() => setCards(defaultCardsToDo));
+  }, [setCards]);
+
   function handleSubmit(evt: SyntheticEvent) {
     evt.preventDefault();
 
@@ -30,8 +44,11 @@ const ToDoColumn: FC<IToDo> = ({
         text: newTask,
       };
 
-      setCards([...cards, newCard]);
-      setIsNewTaskClicked(false);
+      api.postCardToDo(newCard.id) // аналогично при любом вызове методов api
+        .catch(() => {
+          setCards([...cards, newCard]);
+          setIsNewTaskClicked(false);
+        });
     }
   }
 
@@ -42,6 +59,8 @@ const ToDoColumn: FC<IToDo> = ({
       cardsForAdd={cardsForAdd}
       setCards={setCards}
       setCardsForAdd={setCardsForAdd}
+      postCard={api.postCardInProgress}
+      deleteCard={api.deleteCardToDo}
     >
       <Button
         onClick={() => setIsNewTaskClicked(!isNewTaskClicked)}
